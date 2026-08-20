@@ -37,4 +37,29 @@ public class CalculadoraTest {
         assertNotNull(s1);
 //        fail("Falhou por nenhum motivo"); // serve somente para adicionar uma falha
     }
+
+    @Test
+    public void deveRetornarNumeroInteiroNaDivisao(){
+        Calculadora calculadora = new Calculadora();
+        double resultado = calculadora.dividir(6,3);
+
+        assertEquals(2, resultado);
+    }
+
+    @Test
+    public void deveRetornarNumeroNegativoNaDivisao(){
+        Calculadora calculadora = new Calculadora();
+        double resultado = calculadora.dividir(6,-3);
+
+        assertEquals(-2, resultado);
+    }
+
+    @Test
+    public void deveRetornarNumeroDecimalNaDivisao(){
+        Calculadora calculadora = new Calculadora();
+        double resultado = calculadora.dividir(10, 3);
+        System.out.println(resultado);
+//        assertEquals(3.3333333333333335, resultado); //valor de dízima
+        assertEquals(3.33, resultado, 0.01); // usando o delta(margem de erro) para variações aceitáveis
+    }
 }
