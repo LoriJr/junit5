@@ -5,7 +5,6 @@ public class Main {
 
         Calculadora calculadora = new Calculadora();
 
-        System.out.println(calculadora.soma(2,5));
-
+        System.out.println(calculadora.dividir(2,0));
     }
 }
