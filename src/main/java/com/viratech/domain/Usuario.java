@@ -9,15 +9,17 @@ public class Usuario {
     private String senha;
 
     public Usuario(Long id, String nome, String email, String senha) {
-        if(nome == null) throw new ValidationException("Nome é obrigatório");
-        if(email == null) throw new ValidationException("Email é obrigatório");
-        if(senha == null) throw new ValidationException("Senha é obrigatória");
+        if(nome == null || nome.isBlank()) throw new ValidationException("Nome é obrigatório");
+        if(email == null || email.isBlank()) throw new ValidationException("Email é obrigatório");
+        if(senha == null || senha.isBlank()) throw new ValidationException("Senha é obrigatória");
 
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
     }
+
+    public Usuario(){}
 
     public Long getId() {
         return id;
@@ -45,5 +47,9 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getSenha(){
+        return senha;
     }
 }
