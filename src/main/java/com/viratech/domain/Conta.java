@@ -1,5 +1,7 @@
 package com.viratech.domain;
 
+import com.viratech.domain.exceptions.ValidationException;
+
 public class Conta {
 
     private Long id;
@@ -7,6 +9,10 @@ public class Conta {
     private Usuario usuario;
 
     public Conta(Long id, String nome, Usuario usuario) {
+
+        if(nome == null || nome.isBlank()) throw new ValidationException("Nome é obrigatório");
+        if(usuario == null) throw new ValidationException("Usuário é obrigatório");
+
         this.id = id;
         this.nome = nome;
         this.usuario = usuario;
