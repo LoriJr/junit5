@@ -2,6 +2,7 @@ package domain;
 
 import com.viratech.domain.Usuario;
 import com.viratech.domain.exceptions.ValidationException;
+import domain.builders.UsuarioBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +18,12 @@ public class UsuarioTest {
 
 
     static Stream<Arguments> getParametros() {
+        /*
+        Um exemplo usando o builder para o nome do usuário com valor nulo, o problema de adicionar esse teste no ParameterizedTest, é que ele seria inicializado assim que a classe carregasse, mas como o Usuário será carregado no construtor, e nesse caso vindo com o nome nulo, seria lançado direto uma exceção de validação que está na entidade Usuario, onde nesse caso o teste não seria executado devido essa exceção lançada previamente na inicialização da classe de teste.
+        */
+
         return Stream.of(
+//*nota logo acima Arguments.of(UsuarioBuilder.umUsuario().comNome(null).agora(), "Nome é obrigatório"),
                 Arguments.of(1L, null, "usuario1@gmail", "123", "Nome é obrigatório"),
                 Arguments.of(2L, "Usuario2", null, "123", "Email é obrigatório"),
                 Arguments.of(3L, "Usuario3", "usuario1@gmail", null, "Senha é obrigatória")
@@ -27,7 +33,7 @@ public class UsuarioTest {
     @Test
     public void deveCriarUsuario() {
 
-        Usuario usuario = new Usuario(1L, "Usuario1", "emailUsuario1", "123");
+        Usuario usuario = UsuarioBuilder.umUsuario().agora(); // usando o builder para construir o usuário
 
         assertAll(
                 () -> assertNotNull(usuario.getNome()),
