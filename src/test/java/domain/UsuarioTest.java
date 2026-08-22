@@ -58,4 +58,12 @@ public class UsuarioTest {
         assertEquals(mensagem, exception.getMessage());
 
     }
+
+    /* teste exemplo de como seria a exceção usando o UsuarioBuilder */
+    @Test
+    public void deveLancarExcecaoEmailNulo(){
+        Exception ex = assertThrows(ValidationException.class,
+                ()-> UsuarioBuilder.umUsuario().comEmail(null).agora());
+        assertEquals("Email é obrigatório", ex.getMessage());
+    }
 }
