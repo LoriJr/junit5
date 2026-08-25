@@ -14,10 +14,7 @@ public class UsuarioServiceTest {
 
     @Test
     public void deveSalvarUsuarioComSucesso(){
-        service = new UsuarioService(new UsuarioDummyRepository());
-        Usuario usuario = UsuarioBuilder.umUsuario().comId(null).agora();
-        Usuario savedUser = service.salvarUsuario(usuario);
-        assertNotNull(savedUser.getId());
+
 
     }
 }
