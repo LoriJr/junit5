@@ -5,23 +5,29 @@ import com.viratech.domain.exceptions.ValidationException;
 import com.viratech.infra.UsuarioMemoryRepository;
 import com.viratech.service.UsuarioService;
 import domain.builders.UsuarioBuilder;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserServiceComUserMemoryRepository {
 
     private UsuarioService service = new UsuarioService(new UsuarioMemoryRepository());
 
+
     @Test
+    @Order(1)
     public void deveSalvarUsuarioValido(){
-        Usuario usuario = service.salvarUsuario(UsuarioBuilder.umUsuario().comId(null).comEmail("email@gmail.com").agora());
+        Usuario usuario = service.salvarUsuario(UsuarioBuilder.umUsuario().comId(null).agora());
         assertNotNull(usuario.getId());
     }
 
     @Test
+    @Order(2)
     public void deveRejeitarUsuarioExistente(){
-
         Usuario usuario = UsuarioBuilder.umUsuario().comId(null).comEmail("email@gmail.com").agora();
 
         ValidationException ex = assertThrows(ValidationException.class,
