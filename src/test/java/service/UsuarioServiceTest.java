@@ -17,7 +17,7 @@ import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UsuarioServiceTest {
@@ -42,10 +42,28 @@ public class UsuarioServiceTest {
         when(repository.getUserByEmail("email@gmail.com"))
                 .thenReturn(Optional.of(usuario));
 
-        Optional<Usuario> resultado =
-                service.getUserByEmail("email@gmail.com");
+        Optional<Usuario> resultado = service.getUserByEmail("email@gmail.com");
 
         assertTrue(resultado.isPresent());
         assertEquals(usuario, resultado.get());
+
+        //verifico que o repositório ao chamar o getUserByEmail confirme que ela foi realizada com esse email
+        verify(repository).getUserByEmail("email@gmail.com");
+
+        //verifico que o repositório ao chamar o método x, ele foi chamado somente uma vez
+        verify(repository, times(1)).getUserByEmail("email@gmail.com");
+
+        //verifico que o repositório tenha chamdo pelo menos uma chamada no método x com esse email
+        verify(repository, atLeastOnce()).getUserByEmail("email@gmail.com");
+
+        //verifico que o repositório tenha chamado no mínimo 5 vezes
+        verify(repository, atLeast(5)).getUserByEmail("email@gmail.com");
+
+        //verifico que o repositório ao chamar o método x, nunca tenha sido com esse email
+        verify(repository, never()).getUserByEmail("email@teste");
+
+
+
+
     }
 }
