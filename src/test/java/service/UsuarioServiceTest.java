@@ -1,6 +1,7 @@
 package service;
 
 import com.viratech.domain.Usuario;
+import com.viratech.domain.exceptions.ValidationException;
 import com.viratech.service.UsuarioService;
 import com.viratech.service.repositories.UsuarioRepository;
 import domain.builders.UsuarioBuilder;
@@ -87,6 +88,20 @@ public class UsuarioServiceTest {
         verify(repository, times(1)).salvar(savedUser);
     }
 
+    @Test
+    public void deveRejeitarUsuarioComEmailExistente(){
+
+        Usuario userToSave = umUsuario().comId(null).agora();
+
+        when(repository.getUserByEmail(userToSave.getEmail())).thenReturn(Optional.of(umUsuario().agora()));
+
+        ValidationException ex = assertThrows(ValidationException.class,
+                ()-> service.salvarUsuario(userToSave));
+
+        assertEquals(String.format("Existe um cadastro com o email %s", userToSave.getEmail()), ex.getMessage());
+
+        verify(repository, never()).salvar(userToSave);
+    }
 
 
 }
