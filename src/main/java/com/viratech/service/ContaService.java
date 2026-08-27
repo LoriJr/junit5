@@ -2,19 +2,20 @@ package com.viratech.service;
 
 import com.viratech.domain.Conta;
 import com.viratech.domain.exceptions.ValidationException;
+import com.viratech.service.enums.EventType;
+import com.viratech.service.external.ContaEvent;
 import com.viratech.service.repositories.ContaRepository;
-import com.viratech.service.repositories.UsuarioRepository;
 
 import java.util.List;
 
 public class ContaService {
 
     private final ContaRepository contaRepositoryRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final ContaEvent contaEvent;
 
-    public ContaService(ContaRepository contaRepositoryRepository, UsuarioRepository usuarioRepository){
+    public ContaService(ContaRepository contaRepositoryRepository, ContaEvent contaEvent){
         this.contaRepositoryRepository = contaRepositoryRepository;
-        this.usuarioRepository = usuarioRepository;
+        this.contaEvent = contaEvent;
     }
 
     public Conta salvarConta(Conta conta){
@@ -28,7 +29,10 @@ public class ContaService {
             }
         });
 
-        return contaRepositoryRepository.salvar(conta);
+        Conta contaSalva = contaRepositoryRepository.salvar(conta);
+        contaEvent.dispatch(contaSalva, EventType.CREATED);
+
+        return contaSalva;
     }
 
 }
