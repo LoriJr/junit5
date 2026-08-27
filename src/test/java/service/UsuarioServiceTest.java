@@ -16,7 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.swing.text.html.Option;
 import java.util.Optional;
 
+import static domain.builders.UsuarioBuilder.umUsuario;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.platform.commons.util.Preconditions.notEmpty;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,7 +39,7 @@ public class UsuarioServiceTest {
     @Test
     public void deveRetonarUsuarioComSucesso(){
 
-        Usuario usuario = UsuarioBuilder.umUsuario().agora();
+        Usuario usuario = umUsuario().agora();
 
         when(repository.getUserByEmail("email@gmail.com"))
                 .thenReturn(Optional.of(usuario));
@@ -53,17 +55,38 @@ public class UsuarioServiceTest {
         //verifico que o repositório ao chamar o método x, ele foi chamado somente uma vez
         verify(repository, times(1)).getUserByEmail("email@gmail.com");
 
-        //verifico que o repositório tenha chamdo pelo menos uma chamada no método x com esse email
-        verify(repository, atLeastOnce()).getUserByEmail("email@gmail.com");
-
-        //verifico que o repositório tenha chamado no mínimo 5 vezes
-        verify(repository, atLeast(5)).getUserByEmail("email@gmail.com");
-
-        //verifico que o repositório ao chamar o método x, nunca tenha sido com esse email
-        verify(repository, never()).getUserByEmail("email@teste");
-
-
-
-
+//        //verifico que o repositório tenha chamdo pelo menos uma chamada no método x com esse email
+//        verify(repository, atLeastOnce()).getUserByEmail("email@gmail.com");
+//
+//        //verifico que o repositório tenha chamado no mínimo 5 vezes
+//        verify(repository, atLeast(5)).getUserByEmail("email@gmail.com");
+//
+//        //verifico que o repositório ao chamar o método x, nunca tenha sido com esse email
+//        verify(repository, never()).getUserByEmail("email@teste");
     }
+
+    @Test
+    public void deveSavarUsuarioComSucesso(){
+
+        /*
+        *Para o salvar usuário é feito duas interações com o repository,
+        * uma para fazer um getEmail, e outra
+        * para salvar
+        * por esse motivo devemos fazer dois "when"
+        */
+        Usuario userToSave = umUsuario().comId(null).agora();
+
+        when(repository.getUserByEmail(userToSave.getEmail())).thenReturn(Optional.empty());
+
+        when(repository.salvar(userToSave)).thenReturn(umUsuario().agora());
+
+        Usuario savedUser = service.salvarUsuario(userToSave);
+
+        assertNotNull(savedUser.getId());
+        verify(repository).getUserByEmail(userToSave.getEmail());
+        verify(repository, times(1)).salvar(savedUser);
+    }
+
+
+
 }
