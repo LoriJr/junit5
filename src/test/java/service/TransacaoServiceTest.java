@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static domain.builders.TransacaoBuilder.umTransacao;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -23,7 +24,7 @@ public class TransacaoServiceTest {
     private TransacaoService service;
 
     @Test
-    public void deveSalvarTransacaoValida(){
+    public void deveSalvarTransacaoValida() {
 
         Transacao transacaoParaSalvar = umTransacao().comId(null).agora();
         when(dao.salvar(transacaoParaSalvar)).thenReturn(umTransacao().agora());
@@ -31,5 +32,19 @@ public class TransacaoServiceTest {
         Transacao transacaoSalva = service.salvar(transacaoParaSalvar);
         assertEquals(umTransacao().agora(), transacaoSalva);
 
+        assertAll("Transação",
+                () -> assertEquals(1L, transacaoSalva.getId()),
+                () -> assertEquals("Transacao Valida", transacaoSalva.getDescricao()),
+                () -> {
+                    assertAll("Conta",
+                            () -> assertEquals("Conta Válida", transacaoSalva.getConta().getNome()),
+                            () -> {
+                                assertAll("Usuário",
+                                        () -> assertEquals("Usuario Valido", transacaoSalva.getConta().getUsuario().getNome()),
+                                        () -> assertEquals("123456", transacaoSalva.getConta().getUsuario().getSenha()));
+                            });
+
+
+                });
     }
 }
