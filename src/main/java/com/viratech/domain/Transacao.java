@@ -1,6 +1,7 @@
 package com.viratech.domain;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Transacao {
 
@@ -57,5 +58,17 @@ public class Transacao {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Transacao transacao = (Transacao) o;
+        return Objects.equals(descricao, transacao.descricao) && Objects.equals(valor, transacao.valor) && Objects.equals(conta, transacao.conta) && Objects.equals(data, transacao.data) && Objects.equals(status, transacao.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(descricao, valor, conta, data, status);
     }
 }
