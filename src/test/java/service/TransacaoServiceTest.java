@@ -4,8 +4,10 @@ import com.viratech.domain.Conta;
 import com.viratech.domain.Transacao;
 import com.viratech.domain.exceptions.ValidationException;
 import com.viratech.service.TransacaoService;
+import com.viratech.service.external.ClockService;
 import com.viratech.service.repositories.TransacaoDao;
 import jdk.jfr.Enabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
@@ -34,7 +37,13 @@ public class TransacaoServiceTest {
     private TransacaoDao dao;
 
     @InjectMocks
+    @Spy
     private TransacaoService service;
+
+    @BeforeEach
+    void setUp(){
+        when(service.getTime()).thenReturn(LocalDateTime.of(2026, 8, 28, 10, 30, 20));
+    }
 
     @Test
     public void deveSalvarTransacaoValida() {
@@ -42,34 +51,21 @@ public class TransacaoServiceTest {
         Transacao transacaoParaSalvar = umTransacao().comId(null).agora();
         when(dao.salvar(transacaoParaSalvar)).thenReturn(umTransacao().agora());
 
-        LocalDateTime dataDesejada = LocalDateTime.of(2026,8,28,10,30,20);
+        Transacao transacaoSalva = service.salvar(transacaoParaSalvar);
+        assertEquals(umTransacao().agora(), transacaoSalva);
 
-        try(MockedStatic<LocalDateTime> ldt = mockStatic(LocalDateTime.class)){
-
-            ldt.when(()-> LocalDateTime.now()).thenReturn(dataDesejada);
-
-
-            Transacao transacaoSalva = service.salvar(transacaoParaSalvar);
-            assertEquals(umTransacao().agora(), transacaoSalva);
-
-            assertAll("Transação",
-                    () -> assertEquals(1L, transacaoSalva.getId()),
-                    () -> assertEquals("Transacao Valida", transacaoSalva.getDescricao()),
-                    () -> {
-                        assertAll("Conta",
-                                () -> assertEquals("Conta Válida", transacaoSalva.getConta().getNome()),
-                                () -> {
-                                    assertAll("Usuário",
-                                            () -> assertEquals("Usuario Valido", transacaoSalva.getConta().getUsuario().getNome()),
-                                            () -> assertEquals("123456", transacaoSalva.getConta().getUsuario().getSenha()));
-                                });
-
-
-                    });
-
-
-        }
-
+        assertAll("Transação",
+                () -> assertEquals(1L, transacaoSalva.getId()),
+                () -> assertEquals("Transacao Valida", transacaoSalva.getDescricao()),
+                () -> {
+                    assertAll("Conta",
+                            () -> assertEquals("Conta Válida", transacaoSalva.getConta().getNome()),
+                            () -> {
+                                assertAll("Usuário",
+                                        () -> assertEquals("Usuario Valido", transacaoSalva.getConta().getUsuario().getNome()),
+                                        () -> assertEquals("123456", transacaoSalva.getConta().getUsuario().getSenha()));
+                            });
+                });
     }
 
 

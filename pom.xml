@@ -35,6 +35,17 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+            <!-- Source: https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.14</version>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
