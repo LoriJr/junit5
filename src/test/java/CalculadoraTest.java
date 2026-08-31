@@ -58,7 +58,7 @@ public class CalculadoraTest {
     public void deveRetornarNumeroDecimalNaDivisao() {
         Calculadora calculadora = new Calculadora();
         double resultado = calculadora.dividir(10, 3);
-        System.out.println(resultado);
+//        System.out.println(resultado);
 //        assertEquals(3.3333333333333335, resultado); //valor de dízima
         assertEquals(3.33, resultado, 0.01); // usando o delta(margem de erro) para variações aceitáveis
     }

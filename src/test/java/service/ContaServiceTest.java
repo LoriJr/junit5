@@ -70,7 +70,7 @@ public class ContaServiceTest {
         ValidationException ex = assertThrows(ValidationException.class,
                 ()-> contaService.salvarConta(accountToSave));
 
-        assertEquals(String.format("Já existe uma conta com esse nome", accountToSave.getNome()), ex.getMessage());
+        assertEquals(String.format("Já existe uma conta com esse nome %s", accountToSave.getNome()), ex.getMessage());
     }
 
     @Test

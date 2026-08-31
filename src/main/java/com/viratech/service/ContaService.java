@@ -33,7 +33,7 @@ public class ContaService {
                 }
 
         Conta contaSalva = contaRepository.salvar(
-               new Conta(conta.getId(), conta.getNome() + LocalDateTime.now(), conta.getUsuario()));
+               new Conta(conta.getId(), conta.getNome(), conta.getUsuario()));
 
         try{
             contaEvent.dispatch(contaSalva, EventType.CREATED);

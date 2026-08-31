@@ -5,14 +5,12 @@ import com.viratech.domain.exceptions.ValidationException;
 import com.viratech.infra.UsuarioMemoryRepository;
 import com.viratech.service.UsuarioService;
 import domain.builders.UsuarioBuilder;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserServiceComUserMemoryRepository {
 
     private UsuarioService service = new UsuarioService(new UsuarioMemoryRepository());
