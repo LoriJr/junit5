@@ -14,10 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
@@ -35,6 +32,9 @@ public class TransacaoServiceTest {
 
     @Mock
     private TransacaoDao dao;
+
+    @Captor
+    private ArgumentCaptor<Transacao> transacaoCaptor;
 
     @InjectMocks
     @Spy
@@ -88,7 +88,26 @@ public class TransacaoServiceTest {
         );
     }
 
-//    public static boolean isHoraValida(){
-//        return LocalDateTime.now().getHour() > 10;
-//    }
+    @Test
+    public void deveRejeitarTransacaoTardeDaNoite(){
+
+        when(service.getTime()).thenReturn(LocalDateTime.of(2026, 8, 28, 12, 30, 20));
+
+        RuntimeException ex = assertThrows(RuntimeException.class,
+                ()-> service.salvar(umTransacao().agora()));
+        assertEquals("Tente novamente amanhã", ex.getMessage());
+    }
+
+    @Test
+    public void deveAdicionarStatusFalsePadrao(){
+
+        Transacao transacao = umTransacao().comStatus(null).agora();
+        service.salvar(transacao);
+
+        verify(dao).salvar(transacaoCaptor.capture());
+        Transacao transacaoValida = transacaoCaptor.getValue();
+        assertFalse(transacaoValida.getStatus());
+
+    }
+
 }
