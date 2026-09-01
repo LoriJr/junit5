@@ -8,6 +8,7 @@ import com.viratech.service.external.ClockService;
 import com.viratech.service.repositories.TransacaoDao;
 import jdk.jfr.Enabled;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +27,8 @@ import static domain.builders.TransacaoBuilder.umTransacao;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@Tag("service")
+@Tag("transacao")
 //@EnabledIf(value = "isHoraValida")
 @ExtendWith(MockitoExtension.class)
 public class TransacaoServiceTest {

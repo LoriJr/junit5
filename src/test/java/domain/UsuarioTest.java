@@ -4,6 +4,7 @@ import com.viratech.domain.Usuario;
 import com.viratech.domain.exceptions.ValidationException;
 import domain.builders.UsuarioBuilder;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
@@ -12,6 +13,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("dominio")
+@Tag("usuario")
 @DisplayName("Domínio: Usuario")
 public class UsuarioTest {
 

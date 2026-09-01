@@ -7,6 +7,7 @@ import com.viratech.service.ContaService;
 import com.viratech.service.enums.EventType;
 import com.viratech.service.external.ContaEvent;
 import com.viratech.service.repositories.ContaRepository;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -21,6 +22,8 @@ import static domain.builders.ContaBuilder.umaConta;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@Tag("service")
+@Tag("conta")
 @ExtendWith(MockitoExtension.class)
 public class ContaServiceTest {
 

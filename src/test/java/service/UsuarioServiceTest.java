@@ -7,6 +7,7 @@ import com.viratech.service.repositories.UsuarioRepository;
 import domain.builders.UsuarioBuilder;
 import infra.UsuarioDummyRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.platform.commons.util.Preconditions.notEmpty;
 import static org.mockito.Mockito.*;
 
+@Tag("service")
+@Tag("usuario")
 @ExtendWith(MockitoExtension.class)
 public class UsuarioServiceTest {
 

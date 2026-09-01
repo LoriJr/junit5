@@ -1,14 +1,10 @@
 package suite;
 
-import domain.UsuarioTest;
-import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;
-import service.ContaServiceTest;
-import service.UsuarioServiceTest;
 
-@Suite
+//@Suite para usar as tags e não rodar a suite completa então comenta essa linha para pegar somente os testes sem a suite e rodar o mvn test -Dgroups=usuario no terminal
 @SuiteDisplayName("Suite de Testes")
 @SelectPackages(value = {
         "service",

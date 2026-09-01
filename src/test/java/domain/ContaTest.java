@@ -6,6 +6,7 @@ import com.viratech.domain.exceptions.ValidationException;
 import domain.builders.ContaBuilder;
 import domain.builders.UsuarioBuilder;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,6 +17,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Tag("dominio")
+@Tag("conta")
 public class ContaTest {
 
     @Test
